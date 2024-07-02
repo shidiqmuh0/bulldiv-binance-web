@@ -1,80 +1,135 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+    box-sizing: border-box;
 }
 
 .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.exchange-container {
     background-color: #ffffff;
-    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 45%;
+    margin: 10px;
     text-align: center;
-    width: 400px;
+    box-sizing: border-box;
 }
 
 h1 {
-    color: #007bff;
+    color: #4CAF50;
+    font-size: 24px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+label {
+    margin-right: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-right: 10px;
 }
 
 button {
+    background-color: #4CAF50;
+    color: white;
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #ffffff;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 16px;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #45a049;
 }
 
 #result {
     margin-top: 20px;
 }
 
-#symbolsList {
+h2 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+ul {
     list-style-type: none;
     padding: 0;
 }
 
-#symbolsList li {
-    background-color: #007bff;
-    color: #ffffff;
+li {
+    background-color: #f1f1f1;
     margin: 5px 0;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 5px;
 }
 
-/* Updated CSS for loading spinner */
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #3498db;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-.spinner {
-    border: 4px solid rgba(0, 123, 255, 0.3);
-    border-top: 4px solid #007bff;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto;
-    margin-bottom: 10px;
-}
-
 .loading-text {
     font-size: 14px;
-    color: #777;
+    color: #888;
+    margin-top: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .exchange-container {
+        width: 90%;
+        margin: 10px 0;
+    }
+
+    .form-group {
+        flex-direction: column;
+    }
+
+    label, select, button {
+        margin: 5px 0;
+    }
 }
