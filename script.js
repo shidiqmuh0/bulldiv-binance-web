@@ -1,6 +1,14 @@
-document.getElementById('analyzeButton').addEventListener('click', async () => {
-    const timeframe = document.getElementById('timeframe').value;
-    const symbolsList = document.getElementById('symbolsList');
+document.getElementById('binanceAnalyzeButton').addEventListener('click', async () => {
+    await analyzeMarket('binance', 'binanceTimeframe', 'binanceSymbolsList');
+});
+
+document.getElementById('bybitAnalyzeButton').addEventListener('click', async () => {
+    await analyzeMarket('bybit', 'bybitTimeframe', 'bybitSymbolsList');
+});
+
+async function analyzeMarket(exchangeName, timeframeId, symbolsListId) {
+    const timeframe = document.getElementById(timeframeId).value;
+    const symbolsList = document.getElementById(symbolsListId);
     symbolsList.innerHTML = '';
 
     // Show loading spinner
@@ -14,7 +22,7 @@ document.getElementById('analyzeButton').addEventListener('click', async () => {
     symbolsList.appendChild(loadingText);
 
     try {
-        const exchange = new ccxt.binance();
+        const exchange = new ccxt[exchangeName]();
         const markets = await exchange.loadMarkets();
         const symbols = Object.keys(markets).filter(symbol => symbol.endsWith('/USDT'));
 
@@ -40,7 +48,7 @@ document.getElementById('analyzeButton').addEventListener('click', async () => {
                     symbolsList.appendChild(li);
                 }
             } catch (error) {
-                console.error(`Could not analyze ${symbol}:`, error);
+                console.error(`Could not analyze ${symbol} on ${exchangeName}:`, error);
             }
         }
 
@@ -49,11 +57,11 @@ document.getElementById('analyzeButton').addEventListener('click', async () => {
         symbolsList.removeChild(loadingText);
 
     } catch (error) {
-        console.error('Error loading markets:', error);
+        console.error(`Error loading markets for ${exchangeName}:`, error);
         // Optionally handle error display here
         symbolsList.innerHTML = '<p>Error loading data. Please try again.</p>';
     }
-});
+}
 
 function calculateMACD(closes) {
     const shortEMA = calculateEMA(closes, 12);

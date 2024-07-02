@@ -3,25 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binance Bullish Divergence Detector</title>
+    <title>Bullish Divergence Detector</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/ccxt@4.3.54/dist/ccxt.browser.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Binance Bullish Divergence Detector</h1>
-        <div class="form-group">
-            <label for="timeframe">Choose timeframe:</label>
-            <select id="timeframe">
-                <option value="1h">1 hour</option>
-                <option value="4h">4 hours</option>
-                <option value="1d">1 day</option>
-            </select>
-            <button id="analyzeButton">Analyze</button>
-        </div>
-        <div id="result">
-            <h2>Ticker with Bullish Divergence:</h2>
-            <ul id="symbolsList"></ul>
+        <div class="exchange-container">
+            <h1>Binance Bullish Divergence Detector</h1>
+            <div class="form-group">
+                <label for="binanceTimeframe">Choose timeframe:</label>
+                <select id="binanceTimeframe">
+                    <option value="15m">15 minutes</option>
+                    <option value="30m">30 minutes</option>
+                    <option value="1h">1 hour</option>
+                    <option value="4h">4 hours</option>
+                    <option value="1d">1 day</option>
+                </select>
+                <button id="binanceAnalyzeButton">Analyze</button>
+            </div>
+            <div id="binanceResult">
+                <h2>Ticker with Bullish Divergence:</h2>
+                <ul id="binanceSymbolsList"></ul>
+            </div>
+        </div>    
+    </div>
+    <div class="container">
+        <div class="exchange-container">
+            <h1>Bybit Bullish Divergence Detector</h1>
+            <div class="form-group">
+                <label for="bybitTimeframe">Choose timeframe:</label>
+                <select id="bybitTimeframe">
+                    <option value="15m">15 minutes</option>
+                    <option value="30m">30 minutes</option>
+                    <option value="1h">1 hour</option>
+                    <option value="4h">4 hours</option>
+                    <option value="1d">1 day</option>
+                </select>
+                <button id="bybitAnalyzeButton">Analyze</button>
+            </div>
+            <div id="bybitResult">
+                <h2>Ticker with Bullish Divergence:</h2>
+                <ul id="bybitSymbolsList"></ul>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
