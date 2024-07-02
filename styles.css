@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -113,8 +114,32 @@ li {
     margin-top: 10px;
 }
 
+/* Credits */
+#credits {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#credits p {
+    font-size: 18px;
+    color: #666;
+}
+
+#credits a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+#credits a:hover {
+    text-decoration: underline;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
+    body {
+        height: auto;
+    }
+
     .container {
         flex-direction: column;
         align-items: center;
