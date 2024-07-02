@@ -26,31 +26,17 @@ async function analyzeMarket(exchangeName, timeframeId, symbolsListId) {
         const markets = await exchange.loadMarkets();
         const symbols = Object.keys(markets).filter(symbol => symbol.endsWith('/USDT'));
 
-        for (const symbol of symbols) {
-            try {
-                const ohlcv = await exchange.fetchOHLCV(symbol, timeframe, undefined, 500);
-                const df = ohlcv.map(ohlcv => ({
-                    timestamp: new Date(ohlcv[0]),
-                    open: ohlcv[1],
-                    high: ohlcv[2],
-                    low: ohlcv[3],
-                    close: ohlcv[4],
-                    volume: ohlcv[5],
-                }));
+        // Use Promise.all to parallelize API requests
+        const analyses = symbols.map(symbol => analyzeSymbol(exchange, symbol, timeframe));
+        const results = await Promise.all(analyses);
 
-                const closes = df.map(d => d.close);
-                const macd = calculateMACD(closes);
-                const rsi = calculateRSI(closes);
-
-                if (detectBullishDivergence(macd, rsi, closes)) {
-                    const li = document.createElement('li');
-                    li.textContent = symbol;
-                    symbolsList.appendChild(li);
-                }
-            } catch (error) {
-                console.error(`Could not analyze ${symbol} on ${exchangeName}:`, error);
+        results.forEach(result => {
+            if (result) {
+                const li = document.createElement('li');
+                li.textContent = result;
+                symbolsList.appendChild(li);
             }
-        }
+        });
 
         // Remove loading spinner and text after processing
         symbolsList.removeChild(spinner);
@@ -58,9 +44,33 @@ async function analyzeMarket(exchangeName, timeframeId, symbolsListId) {
 
     } catch (error) {
         console.error(`Error loading markets for ${exchangeName}:`, error);
-        // Optionally handle error display here
         symbolsList.innerHTML = '<p>Error loading data. Please try again.</p>';
     }
+}
+
+async function analyzeSymbol(exchange, symbol, timeframe) {
+    try {
+        const ohlcv = await exchange.fetchOHLCV(symbol, timeframe, undefined, 500);
+        const df = ohlcv.map(ohlcv => ({
+            timestamp: new Date(ohlcv[0]),
+            open: ohlcv[1],
+            high: ohlcv[2],
+            low: ohlcv[3],
+            close: ohlcv[4],
+            volume: ohlcv[5],
+        }));
+
+        const closes = df.map(d => d.close);
+        const macd = calculateMACD(closes);
+        const rsi = calculateRSI(closes);
+
+        if (detectBullishDivergence(macd, rsi, closes)) {
+            return symbol;
+        }
+    } catch (error) {
+        console.error(`Could not analyze ${symbol} on ${exchangeName}:`, error);
+    }
+    return null;
 }
 
 function calculateMACD(closes) {
